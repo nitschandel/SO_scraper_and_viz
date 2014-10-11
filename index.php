@@ -94,7 +94,7 @@ mysqli_close($conn);
 
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-<script src="js/jquery-1.10.1.js"></script>
+<script src="//cdn.jsdelivr.net/jquery/1.9.1/jquery-1.9.1.min.js"></script>
 <script src="js/tags.js"></script>
 
 </head>
