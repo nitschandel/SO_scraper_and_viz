@@ -3,7 +3,7 @@ if(isset($_POST['e_language'])){
     include_once('simplehtmldom_1_5/simple_html_dom.php');
 
     //Connecting to MySql with the database named 'SO_scraper', replace password with your own.
-    $conn=mysqli_connect("localhost", "root","password","SO_scraper");
+    $conn=mysqli_connect("localhost", "root","","p");
 
     if (!(mysqli_connect_errno())) {
 
@@ -79,7 +79,8 @@ if(isset($_POST['e_language'])){
 
 mysqli_close($conn);
 
-
+header("Location: /scrape/viz.php");
+die();
 }
 
 ?>
@@ -111,5 +112,3 @@ mysqli_close($conn);
 </div > </div>
 </body>
 </html>
-
-
