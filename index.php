@@ -3,7 +3,7 @@ if(isset($_POST['e_language'])){
     include_once('simplehtmldom_1_5/simple_html_dom.php');
 
     //Connecting to MySql with the database named 'SO_scraper', replace password with your own.
-    $conn=mysqli_connect("localhost", "root","","p");
+    $conn=mysqli_connect("localhost", "root","password","SO_scraper");
 
     if (!(mysqli_connect_errno())) {
 
