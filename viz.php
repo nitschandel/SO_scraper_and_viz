@@ -11,7 +11,7 @@
 <body>
 <?php
 
-$conn=mysqli_connect("localhost", "root","password","SO_scraper");
+$conn=mysqli_connect("localhost", "root","","SO_scraper");
 $filedata;
 if (!(mysqli_connect_errno())) {
 
@@ -39,6 +39,23 @@ file_put_contents($file, json_encode($json));
 
 
 }
+$result1 = mysqli_query($conn,"SELECT * FROM tag"); 
+
+$dataset1 = array();
+while($row1 = mysqli_fetch_array($result1)) {
+
+$dataset1 ["x"]=$row1["language"];
+
+$dataset1 ["y" ]   = $row1 ['featques'];
+$file1 = "json/superman.json";
+
+$json1 = json_decode(file_get_contents($file1),true);
+
+$json1[] = array($dataset1);
+
+file_put_contents($file1, json_encode($json1));
+
+}
 }
 
 else 
@@ -46,6 +63,7 @@ else
 {
   echo "Failed to connect to MySQL: " . mysqli_connect_error();
 }
+mysqli_close($conn);
 
 ?>
 
