@@ -3,7 +3,7 @@ if(isset($_POST['e_language'])){
     include_once('simplehtmldom_1_5/simple_html_dom.php');
 
     //Connecting to MySql with the database named 'SO_scraper', replace password with your own.
-    $conn=mysqli_connect("localhost", "root","password","SO_scraper");
+    $conn=mysqli_connect("localhost", "root","","SO_scraper");
 
     if (!(mysqli_connect_errno())) {
 
@@ -11,7 +11,8 @@ if(isset($_POST['e_language'])){
      $sql="CREATE TABLE IF NOT EXISTS questions(QUES_ID INT NOT NULL , question VARCHAR(100), user VARCHAR(30), score INT, votes INT, answers INT, views INT, PRIMARY KEY (QUES_ID) )";
      $sql1="CREATE TABLE IF NOT EXISTS lang(language VARCHAR(20), questionstagged INT,PRIMARY KEY (language) )";
      $sql2="CREATE TABLE IF NOT EXISTS ids(language VARCHAR(20), QUES_ID INT, FOREIGN KEY (QUES_ID) REFERENCES questions(QUES_ID),FOREIGN KEY (language) REFERENCES lang(language))";
-     if(mysqli_query($conn, $sql)&&mysqli_query($conn, $sql1)&&mysqli_query($conn, $sql2)) {
+     $sql3="CREATE TABLE IF NOT EXISTS tag(language VARCHAR(20), quesunans INT, featques INT,PRIMARY KEY (language) )";
+     if(mysqli_query($conn, $sql)&&mysqli_query($conn, $sql1)&&mysqli_query($conn, $sql2)&&mysqli_query($conn, $sql3)) {
        //Retrieving data from the form
        $entry=$_POST['e_language'];
        $tags=explode(",", $entry);
@@ -68,6 +69,21 @@ if(isset($_POST['e_language'])){
 
 
          }
+         $target_url1 = "http://stackoverflow.com/questions/tagged/".$i."?sort=unanswered&pageSize=15";
+         $html1 = new simple_html_dom();
+         $html1->load_file($target_url1);
+         $unans=$html1->find('.summarycount', 0);
+         $unans= filter_var($unans, FILTER_SANITIZE_NUMBER_INT);
+
+         $target_url2 = "http://stackoverflow.com/questions/tagged/".$i."?sort=featured&pageSize=15";
+         $html2 = new simple_html_dom();
+         $html2->load_file($target_url2);
+         $feat=$html2->find('.summarycount', 0);
+         $feat= filter_var($feat, FILTER_SANITIZE_NUMBER_INT);
+
+        
+         $sql_insert3="INSERT INTO tag (language,quesunans,featques) VALUES('$i','$unans','$feat')";
+         mysqli_query($conn, $sql_insert3);
        }
      }
      else{
