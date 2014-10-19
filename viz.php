@@ -44,19 +44,18 @@ $result1 = mysqli_query($conn,"SELECT * FROM tag");
 $dataset1 = array();
 while($row1 = mysqli_fetch_array($result1)) {
 
-$dataset1 ["x"]=$row1["language"];
-
-$dataset1 ["y" ]   = $row1 ['featques'];
+array_push($dataset1,array("language"=>$row1['language'],"featques"=>$row1['featques'],"unanswered"=>($row1['quesunans']/100000)));
+}
 $file1 = "json/superman.json";
 
 $json1 = json_decode(file_get_contents($file1),true);
 
-$json1[] = array($dataset1);
+$json1 = $dataset1;
 
 file_put_contents($file1, json_encode($json1));
 
 }
-}
+
 
 else 
 
@@ -65,10 +64,10 @@ else
 }
 mysqli_close($conn);
 
+header("Location: /scrape/scrap.php");
+
 ?>
 
-<script type="text/javascript">
-init();
-</script>
+
 </body>
 </html>
